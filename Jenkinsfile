@@ -1,7 +1,7 @@
 env.dockerimagename="devopsbasservice/buildonframework:insights"
 node {
 
-//Parse commitID (E.g, buildon-abc1234 to abc1234)
+//Parse commitID (E.g, buildon-abc1234 to abc1234)  
 gitCommitID = sh (
     script: 'echo $commitID | cut -d "-" -f2',
     returnStdout: true
