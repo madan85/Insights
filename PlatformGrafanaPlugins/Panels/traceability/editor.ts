@@ -10,6 +10,7 @@ import $ from 'jquery';
 import moment from 'moment';
 import angular from 'angular';
 import kbn from 'app/core/utils/kbn';
+import { PanelPathGenerator } from '../insightsCore/PanelPathGenerator';
 
 export class ToolsInsightEditorCtrl extends BaseEditorCtrl {
   toolsInsightsPanel: any;
@@ -39,7 +40,7 @@ export class ToolsInsightEditorCtrl extends BaseEditorCtrl {
     if (idx > -1) {
       this.checkboxSelArr.splice(idx, 1);
       this.toolsInsightsPanel["showDagreGraph"] = false;
-    }else {
+    } else {
       this.checkboxSelArr.push("selected");
       this.toolsInsightsPanel["showDagreGraph"] = true;
     }
@@ -55,10 +56,12 @@ export class ToolsInsightEditorCtrl extends BaseEditorCtrl {
 /** @ngInject */
 export function toolsInsightEditor($q, uiSegmentSrv) {
   'use strict';
+  var pathClassObject = new PanelPathGenerator();
+  var GrafanaPluginPath = pathClassObject.getPathDetails();
   return {
     restrict: 'E',
     scope: true,
-    templateUrl: 'public/plugins/toolsinsights/editor.html',
+    templateUrl: GrafanaPluginPath + '/toolsinsights/editor.html',
     controller: ToolsInsightEditorCtrl,
     controllerAs: 'toolsInsightEditorCtrl'
   };

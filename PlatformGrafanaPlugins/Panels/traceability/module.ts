@@ -8,6 +8,7 @@ import * as FileExport from 'app/core/utils/file_export';
 import { MetricsPanelCtrl } from 'app/plugins/sdk';
 //import {transformDataToTable} from './transformers';
 import { toolsInsightEditor } from './editor';
+import { PanelPathGenerator } from '../insightsCore/PanelPathGenerator';
 //import {TableRenderer} from './renderer';
 declare var d3: any;
 declare var dagreD3: any;
@@ -46,13 +47,15 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
     'DEFECTS': 'Defects'
   };
 
+  pathClassObject = new PanelPathGenerator();
+  GrafanaPluginPath = this.pathClassObject.getPathDetails();
   labelIcons = {
-    'GIT': 'public/plugins/toolsinsights/img/GIT.svg',
-    'JENKINS': 'public/plugins/toolsinsights/img/Jenkins.svg',
-    'SONAR': 'public/plugins/toolsinsights/img/SONAR.svg',
-    'RUNDECK': 'public/plugins/toolsinsights/img/Rundeck.svg',
-    'JIRA': 'public/plugins/toolsinsights/img/JIRA.svg',
-    'BITBUCKET': 'public/plugins/toolsinsights/img/BitBucket.svg'
+    'GIT': this.GrafanaPluginPath + '/toolsinsights/img/GIT.svg',
+    'JENKINS': this.GrafanaPluginPath + '/toolsinsights/img/Jenkins.svg',
+    'SONAR': this.GrafanaPluginPath + '/toolsinsights/img/SONAR.svg',
+    'RUNDECK': this.GrafanaPluginPath + '/toolsinsights/img/Rundeck.svg',
+    'JIRA': this.GrafanaPluginPath + '/toolsinsights/img/JIRA.svg',
+    'BITBUCKET': this.GrafanaPluginPath + '/toolsinsights/img/BitBucket.svg'
   };
 
   uniqueFieldVal = ['jir_jirakey', 'bit_commitId', 'jen_BuildNumber'];
@@ -184,7 +187,7 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
     if ($('#dagreD3LoaderScript').length === 0) {
       dagreD3 = {};
       $('<script>', {
-        src: 'public/plugins/toolsinsights/dagre-d3.js',
+        src: this.GrafanaPluginPath + '/toolsinsights/dagre-d3.js',
         id: 'dagreD3LoaderScript',
         type: 'text/javascript'
       }).appendTo('body');
@@ -671,6 +674,6 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
 }
 
 export {
-PipelinePanelCtrl,
-PipelinePanelCtrl as PanelCtrl
+  PipelinePanelCtrl,
+  PipelinePanelCtrl as PanelCtrl
 };

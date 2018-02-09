@@ -10,6 +10,7 @@ import $ from 'jquery';
 import moment from 'moment';
 import angular from 'angular';
 import { ToolsInsightModel, Tools, Fields } from './toolsInsightModel';
+import { PanelPathGenerator } from '../insightsCore/PanelPathGenerator';
 
 export class ToolsInsightEditorCtrl {
   toolsInsightsPanel: any;
@@ -29,7 +30,7 @@ export class ToolsInsightEditorCtrl {
   advanceSettingOption = 0;
 
   /** @ngInject */
-  constructor($scope, private $q, private uiSegmentSrv) {
+  constructor($scope, private $q, private uiSegmentSrv, private $http) {
     //super($scope, $q, uiSegmentSrv);
     var self = this;
     self.toolsInsightsPanelCtrl = $scope.ctrl;
@@ -305,10 +306,14 @@ export class ToolsInsightEditorCtrl {
 /** @ngInject */
 export function toolsInsightEditor($q, uiSegmentSrv) {
   'use strict';
+
+  var pathClassObject = new PanelPathGenerator();
+  var GrafanaPluginPath = pathClassObject.getPathDetails();
+  console.log(GrafanaPluginPath);
   return {
     restrict: 'E',
     scope: true,
-    templateUrl: 'public/plugins/toolsinsights/editor.html',
+    templateUrl: GrafanaPluginPath + '/toolsinsights/editor.html',
     controller: ToolsInsightEditorCtrl,
     controllerAs: 'toolsInsightEditorCtrl'
   };

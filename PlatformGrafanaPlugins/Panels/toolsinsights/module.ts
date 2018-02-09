@@ -8,6 +8,7 @@ import * as FileExport from 'app/core/utils/file_export';
 import { MetricsPanelCtrl } from 'app/plugins/sdk';
 //import {transformDataToTable} from './transformers';
 import { toolsInsightEditor } from './editor';
+import { PanelPathGenerator } from '../insightsCore/PanelPathGenerator';
 //import {TableRenderer} from './renderer';
 declare var google: any;
 
@@ -36,15 +37,17 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
         'LOADRUNNER': 'Runs'
     };
 
+    pathClassObject = new PanelPathGenerator();
+    GrafanaPluginPath = this.pathClassObject.getPathDetails();
     labelIcons = {
-        'GIT': 'public/plugins/toolsinsights/img/GIT.svg',
-        'JENKINS': 'public/plugins/toolsinsights/img/Jenkins.svg',
-        'SONAR': 'public/plugins/toolsinsights/img/SONAR_new.svg',
-        'RUNDECK': 'public/plugins/toolsinsights/img/RUNDECK_new.svg',
-        'JIRA': 'public/plugins/toolsinsights/img/JIRA.svg',
-        'BITBUCKET': 'public/plugins/toolsinsights/img/BitBucket.svg',
-        'TESTING': 'public/plugins/toolsinsights/img/Testing_img.svg',
-        'LOADRUNNER': 'public/plugins/toolsinsights/img/LoadRunner.svg'
+        'GIT': this.GrafanaPluginPath + '/toolsinsights/img/GIT.svg',
+        'JENKINS': this.GrafanaPluginPath + '/toolsinsights/img/Jenkins.svg',
+        'SONAR': this.GrafanaPluginPath + '/toolsinsights/img/SONAR_new.svg',
+        'RUNDECK': this.GrafanaPluginPath + '/toolsinsights/img/RUNDECK_new.svg',
+        'JIRA': this.GrafanaPluginPath + '/toolsinsights/img/JIRA.svg',
+        'BITBUCKET': this.GrafanaPluginPath + '/toolsinsights/img/BitBucket.svg',
+        'TESTING': this.GrafanaPluginPath + '/toolsinsights/img/Testing_img.svg',
+        'LOADRUNNER': this.GrafanaPluginPath + '/toolsinsights/img/LoadRunner.svg'
     };
 
     toolsList = [];
@@ -215,7 +218,7 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
         for (var i in this.toolDetailMappingJson) {
             this.selectedSeq[i] = this.toolDetailMappingJson[i].toolName;
         }
-        console.log(this.selectedSeq);
+        //console.log(this.selectedSeq);
         //console.log(this.pipelineToolsArray);
         this.checkToolSelection();
         return super.render(this.dataSourceResponse);
@@ -228,7 +231,7 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
         if (this.toolDetailMappingJson.length === 0) {
             this.selectedSeq = [];
         }
-        if(this.panel.toolsInsightsPanelCtrl.message){
+        if (this.panel.toolsInsightsPanelCtrl.message) {
             this.msg = this.panel.toolsInsightsPanelCtrl.message;
         }
         if (this.selectedSeq.length !== 0) {
@@ -592,7 +595,7 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
         query += 'RETURN toolName, size(nodes) as count, nodes ';*/
         let query = 'MATCH (a:DATA) WHERE a.uuid IN ' + JSON.stringify(uuidCollected) + ' ';
         query += ' WITH distinct a.toolName as toolName, collect(distinct a) as nodes Return toolName, size(nodes) as count, nodes';
-        console.log(query);
+        //console.log(query);
         return query;
     }
 
@@ -621,8 +624,8 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
                     uuidCollected = [];
                 }
                 if (result.uuids && result.uuids.length > 0) {
-                    if(hopLevel == 1){
-                        resultContainer['0'] = uuidCollected.concat(result.sourceUuids);    
+                    if (hopLevel == 1) {
+                        resultContainer['0'] = uuidCollected.concat(result.sourceUuids);
                     }
                     resultContainer['' + hopLevel] = uuidCollected.concat(result.uuids);
                     self.processHop(result.toolName, 'uuid', result.uuids, localExcludeLabels, resultContainer, (hopLevel + 1));
@@ -675,9 +678,9 @@ class PipelinePanelCtrl extends MetricsPanelCtrl {
                     self.totalNodes = data.data.results[0].data.length;
                     var queryData = data.data;
                     self.parseQueryResult(queryData);
-                    if(self.totalNodes > 0){
+                    if (self.totalNodes > 0) {
                         self.toolsRelationQueryOutput();
-                    }else{
+                    } else {
                         self.showAdvanceView = false;
                         self.showThrobber = false;
                         self.showToolDetails = false;

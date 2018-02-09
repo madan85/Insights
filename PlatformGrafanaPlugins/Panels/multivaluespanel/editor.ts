@@ -6,7 +6,8 @@ import $ from 'jquery';
 import moment from 'moment';
 import angular from 'angular';
 import kbn from 'app/core/utils/kbn';
-import {PipelineModel, FieldModel} from './pipelineModel';
+import { PipelineModel, FieldModel } from './pipelineModel';
+import { PanelPathGenerator } from '../insightsCore/PanelPathGenerator';
 
 export class PipelinePanelEditorCtrl {
   pipelinePanel: any;
@@ -26,7 +27,7 @@ export class PipelinePanelEditorCtrl {
     this.pipelinePanel = this.pipelinePanelCtrl.panel;
     this.dataSourceResponse = this.pipelinePanelCtrl.dataSourceResponse;
     if (this.dataSourceResponse === undefined || this.dataSourceResponse.length === 0) {
-     this.receivedDataStatus = false;
+      this.receivedDataStatus = false;
     } else {
       this.receivedDataStatus = true;
     }
@@ -156,10 +157,12 @@ export class PipelinePanelEditorCtrl {
 /** @ngInject */
 export function pipelinePanelEditor($q, uiSegmentSrv) {
   'use strict';
+  var pathClassObject = new PanelPathGenerator();
+  var GrafanaPluginPath = pathClassObject.getPathDetails();
   return {
     restrict: 'E',
     scope: true,
-    templateUrl: 'public/plugins/multivaluespanel/editor.html',
+    templateUrl: GrafanaPluginPath + '/multivaluespanel/editor.html',
     controller: PipelinePanelEditorCtrl,
     controllerAs: 'pipelinePanelEditorCtrl'
   };
