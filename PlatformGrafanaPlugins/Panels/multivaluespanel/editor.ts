@@ -159,6 +159,7 @@ export function pipelinePanelEditor($q, uiSegmentSrv) {
   'use strict';
   var pathClassObject = new PanelPathGenerator();
   var GrafanaPluginPath = pathClassObject.getPathDetails();
+  //console.log(GrafanaPluginPath);
   return {
     restrict: 'E',
     scope: true,
