@@ -4,7 +4,7 @@ import { BaseEditorCtrl } from '../insightsCore/BaseEditor';
 import { BaseCharts } from '../insightsCore/BaseCharts';
 import { BaseParser, ParsedResponse } from '../insightsCore/BaseParser';
 import { ChartModel, ChartData, ColumnModel, ContainerModel } from '../insightsCore/ChartModel';
-import { InsightsChartEditorModel, InsightsChartTargetModel } from '../insightscharts/models';
+import { InsightsChartEditorModel, InsightsChartTargetModel } from '../insightsCharts/models';
 import _ from 'lodash';
 import $ from 'jquery';
 import moment from 'moment';
